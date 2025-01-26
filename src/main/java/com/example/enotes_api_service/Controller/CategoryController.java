@@ -1,5 +1,7 @@
 package com.example.enotes_api_service.Controller;
 
+import com.example.enotes_api_service.Dto.CategoryDto;
+import com.example.enotes_api_service.Dto.CategoryResponse;
 import com.example.enotes_api_service.Entity.Category;
 import com.example.enotes_api_service.Service.CategoryService;
 import org.springframework.http.HttpStatus;
@@ -20,9 +22,9 @@ public class CategoryController {
     }
 
     @PostMapping("/save-category")
-    public ResponseEntity<?> saveCategory(@RequestBody Category category)
+    public ResponseEntity<?> saveCategory(@RequestBody CategoryDto categoryDto)
     {
-        Boolean b = categoryService.saveCategory(category);
+        Boolean b = categoryService.saveCategory(categoryDto);
         if (b)
         {
             return new ResponseEntity<>("Saved", HttpStatus.CREATED);
@@ -37,7 +39,21 @@ public class CategoryController {
     @GetMapping("/category")
     public ResponseEntity<?> getAllCategories()
     {
-        List<Category> categories = categoryService.getCategories();
+        List<CategoryDto> categories = categoryService.getCategories();
+        if (CollectionUtils.isEmpty(categories))
+        {
+            return new ResponseEntity<>("No categories found", HttpStatus.NOT_FOUND);
+        }
+        else
+        {
+            return new ResponseEntity<>(categories, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/active-category")
+    public ResponseEntity<?> getActiveCategories()
+    {
+        List<CategoryResponse> categories = categoryService.getActiveCategories();
         if (CollectionUtils.isEmpty(categories))
         {
             return new ResponseEntity<>("No categories found", HttpStatus.NOT_FOUND);
