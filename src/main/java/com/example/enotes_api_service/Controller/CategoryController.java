@@ -7,6 +7,7 @@ import com.example.enotes_api_service.Service.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class CategoryController {
 
     }
 
-    @GetMapping("/category")
+    @GetMapping("/")
     public ResponseEntity<?> getAllCategories()
     {
         List<CategoryDto> categories = categoryService.getCategories();
@@ -50,7 +51,7 @@ public class CategoryController {
         }
     }
 
-    @GetMapping("/active-category")
+    @GetMapping("/active")
     public ResponseEntity<?> getActiveCategories()
     {
         List<CategoryResponse> categories = categoryService.getActiveCategories();
@@ -62,5 +63,29 @@ public class CategoryController {
         {
             return new ResponseEntity<>(categories, HttpStatus.OK);
         }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getCategoryDetailsById(@PathVariable Integer id)
+    {
+        CategoryDto categoryDto=categoryService.getCategoryById(id);
+        if(ObjectUtils.isEmpty(categoryDto))
+        {
+            return new ResponseEntity<>("No category found with id="+id, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(categoryDto, HttpStatus.OK);
+
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteCategoryDetailsById(@PathVariable Integer id)
+    {
+        Boolean deleted=categoryService.deleteCategory(id);
+        if(deleted)
+        {
+            return new ResponseEntity<>("Category with id="+id+" deleted", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Category with id="+id+" not deleted (Not Found)", HttpStatus.INTERNAL_SERVER_ERROR);
+
     }
 }
