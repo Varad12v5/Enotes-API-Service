@@ -1,0 +1,6 @@
+package com.example.enotes_api_service.Exception;
+
+public class ResourceNotFoundException extends Exception{
+
+    public 
+}

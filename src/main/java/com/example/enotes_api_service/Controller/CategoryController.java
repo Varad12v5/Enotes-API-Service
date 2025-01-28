@@ -3,6 +3,7 @@ package com.example.enotes_api_service.Controller;
 import com.example.enotes_api_service.Dto.CategoryDto;
 import com.example.enotes_api_service.Dto.CategoryResponse;
 import com.example.enotes_api_service.Entity.Category;
+import com.example.enotes_api_service.Exception.ResourceNotFoundException;
 import com.example.enotes_api_service.Service.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,7 +67,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCategoryDetailsById(@PathVariable Integer id)
+    public ResponseEntity<?> getCategoryDetailsById(@PathVariable Integer id) throws Exception
     {
         CategoryDto categoryDto=categoryService.getCategoryById(id);
         if(ObjectUtils.isEmpty(categoryDto))
