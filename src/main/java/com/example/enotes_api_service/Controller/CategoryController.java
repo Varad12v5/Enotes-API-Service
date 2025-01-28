@@ -22,7 +22,7 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @PostMapping("/save-category")
+    @PostMapping("/save")
     public ResponseEntity<?> saveCategory(@RequestBody CategoryDto categoryDto)
     {
         Boolean b = categoryService.saveCategory(categoryDto);
