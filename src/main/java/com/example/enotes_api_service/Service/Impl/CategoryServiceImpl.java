@@ -6,6 +6,7 @@ import com.example.enotes_api_service.Entity.Category;
 import com.example.enotes_api_service.Exception.ResourceNotFoundException;
 import com.example.enotes_api_service.Repository.CategoryRepository;
 import com.example.enotes_api_service.Service.CategoryService;
+import com.example.enotes_api_service.util.Validation;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -19,19 +20,19 @@ public class CategoryServiceImpl implements CategoryService {
 
     private CategoryRepository categoryRepository;
     private ModelMapper mapper;
+    private Validation validation;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository, ModelMapper mapper) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, ModelMapper mapper, Validation validation) {
         this.categoryRepository = categoryRepository;
         this.mapper = mapper;
+        this.validation = validation;
     }
 
     @Override
     public Boolean saveCategory(CategoryDto categoryDto) {
 
-//        Category category = new Category();
-//        category.setName(categoryDto.getName());
-//        category.setDescription(categoryDto.getDescription());
-//        category.setIsActive(categoryDto.getIsActive());
+        //Validation Checking
+         validation.categoryValidation(categoryDto);
 
         Category category = mapper.map(categoryDto, Category.class);
 
