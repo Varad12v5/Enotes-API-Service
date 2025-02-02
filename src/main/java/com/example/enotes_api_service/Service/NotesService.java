@@ -1,0 +1,12 @@
+package com.example.enotes_api_service.Service;
+
+import com.example.enotes_api_service.Dto.NotesDto;
+
+import java.util.List;
+
+public interface NotesService {
+
+    public Boolean saveNotes(NotesDto notesDto) throws Exception;
+
+    public List<NotesDto> getAllNotes();
+}
