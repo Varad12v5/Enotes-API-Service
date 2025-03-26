@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -21,9 +22,9 @@ public class NotesController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> saveNotes(@RequestBody NotesDto notesDto) throws Exception
+    public ResponseEntity<?> saveNotes(@RequestParam String notes, @RequestParam(required = false) MultipartFile file) throws Exception
     {
-        Boolean b = notesService.saveNotes(notesDto);
+        Boolean b = notesService.saveNotes(notes,file);
         if (b)
         {
             return CommonUtils.createBuildResponseMessage("Notes Saved Successfully", HttpStatus.CREATED);

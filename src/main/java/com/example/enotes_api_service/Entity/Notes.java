@@ -26,4 +26,7 @@ public class Notes {
     @ManyToOne
     private Category category;
 
+    @ManyToOne
+    private FileDetails fileDetails;
+
 }
